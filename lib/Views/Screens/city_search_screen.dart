@@ -1,10 +1,6 @@
-import 'dart:developer';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/Cubits/get_current_weather/get_weather_cubits.dart';
-import 'package:weather_app/Models/weathe_model.dart';
-import 'package:weather_app/Services/weather_service.dart';
 
 class CitySearchScreen extends StatelessWidget {
   const CitySearchScreen({super.key});
@@ -12,60 +8,80 @@ class CitySearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
-        backgroundColor: Colors.orange,
-        title: Text(
-          "Search a City ",
-          style: TextStyle(color: Colors.white),
+        elevation: 0,
+        backgroundColor: Colors.blue,
+        centerTitle: true,
+        title: const Text(
+          "Search City",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1,
+          ),
         ),
-        leading: GestureDetector(
-            // can replace it with IconButton
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            )),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+          onPressed: () => Navigator.pop(context),
+        ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 150),
-          child: TextField(
-            onSubmitted: (value) {
-              BlocProvider.of<GetWeatherCubit>(context)
-                  .getWeather(cityName: value);
-              Navigator.pop(context);
-              //                    // Before using cubit (using global variable (weatheModel) and this is bad)
-              // // onSubmitted to apply the search after all input (when click enter) not after each character that use onChanged
-              // weatherModel = await WeatherServices(Dio())
-              //     .getCurrentWeather(cityName: value);
-              // // to print the previous line into the app i will put it into model and show it from log function , and convert onSubmitted method to async method
-              // Navigator.pop(context);
-              // log(weatherModel!.city);
-            },
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.amber.shade600),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.amber.shade600),
-              ),
-              hintText: "Enter City Name",
-              suffixIcon: Icon(Icons.search),
-              labelText: 'Search',
-              floatingLabelStyle: TextStyle(color: Colors.amber.shade600),
-              contentPadding: EdgeInsets.symmetric(
-                vertical: 28,
-                horizontal: 16,
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.location_city,
+              size: 80,
+              color: Colors.blue,
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              "Find Weather Instantly 🌤️",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
               ),
             ),
-          ),
+            const SizedBox(height: 8),
+            Text(
+              "Enter city name to get real-time weather updates",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey.shade600,
+              ),
+            ),
+            const SizedBox(height: 30),
+            TextField(
+              textInputAction: TextInputAction.search,
+              onSubmitted: (value) {
+                if (value.trim().isEmpty) return;
+
+                BlocProvider.of<GetWeatherCubit>(context)
+                    .getWeather(cityName: value.trim());
+
+                Navigator.pop(context);
+              },
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                hintText: "Enter city name",
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  vertical: 18,
+                  horizontal: 16,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
-
-// WeatherModel? weatherModel;  // Glogal variable to can access it from any where in project (can use it at home page)

@@ -6,6 +6,8 @@ import 'package:weather_app/Views/Screens/home_view_screen.dart';
 import 'package:weather_app/Views/Screens/no_weathe_screen.dart';
 import 'package:weather_app/Views/Screens/weather_screen.dart';
 import 'package:weather_app/Views/Screens/city_search_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 void main() {
   runApp(const MyApp());

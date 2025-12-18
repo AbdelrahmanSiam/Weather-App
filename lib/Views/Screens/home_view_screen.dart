@@ -14,32 +14,59 @@ class HomeViewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: getWeatherColor(
           BlocProvider.of<GetWeatherCubit>(context).weatherModel?.state,
         ),
-        title: Text(
-          'Weather App',
-          style: TextStyle(color: Colors.white),
+        centerTitle: true,
+        title: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+              'Weather App',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1,
+              ),
+            ),
+            if (BlocProvider.of<GetWeatherCubit>(context).weatherModel != null)
+              Text(
+                BlocProvider.of<GetWeatherCubit>(context).weatherModel!.city,
+                style: TextStyle(
+                  color: Colors.white.withOpacity(0.85),
+                  fontSize: 13,
+                ),
+              ),
+          ],
         ),
         actions: [
-          IconButton(
+          Container(
+            margin: const EdgeInsets.only(right: 10),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.15),
+              shape: BoxShape.circle,
+            ),
+            child: IconButton(
+              tooltip: 'Search City',
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CitySearchScreen(),
+                    builder: (_) => const CitySearchScreen(),
                   ),
                 );
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.search,
                 color: Colors.white,
-              )),
-          SizedBox(
-            width: 5,
+              ),
+            ),
           ),
         ],
       ),
+
       body: BlocBuilder<GetWeatherCubit, WeatherStates>(
         builder: (context, state) {
           if (state is WeatherInitialState) {

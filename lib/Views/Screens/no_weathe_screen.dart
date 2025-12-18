@@ -5,24 +5,45 @@ class NoWeatherScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Center(
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'there is no weather 😔',
-              style: TextStyle(
-                fontSize: 25,
-              ),
+            // 🌤️ Icon
+            Icon(
+              Icons.cloud_off,
+              size: 90,
+              color: Colors.grey.shade400,
             ),
+
+            const SizedBox(height: 20),
+
+            // Title
             Text(
-              'start searching now 🔍',
+              'No Weather Data',
               style: TextStyle(
-                fontSize: 25,
+                fontSize: 26,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey.shade800,
               ),
+              textAlign: TextAlign.center,
             ),
+
+            const SizedBox(height: 12),
+
+            // Subtitle
+            Text(
+              'Start searching for a city to see the weather forecast',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey.shade600,
+              ),
+              textAlign: TextAlign.center,
+            ),
+
+            const SizedBox(height: 30),
           ],
         ),
       ),
